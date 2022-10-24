@@ -6,8 +6,16 @@ const bcrypt = require('bcrypt');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
+router.get('/displayProfil', function(req, res) {
+  User.findOne({ token: req.body.token }).then(userFoundInDb => {
+    if(userFoundInDb){ //récupération des données utiles uniquement. Pas de mot de passe en front
+      res.json({result: true, userName: userFoundInDb.userName, firstName: userFoundInDb.firstName, sexe: userFoundInDb.sexe, email: userFoundInDb.email, phoneNumber: userFoundInDb.phoneNumber, address: userFoundInDb.address, favoriteTransportLine: userFoundInDb.favoriteTransportLine, profilPhoto: userFoundInDb.profilPhoto,showProfilPhoto: userFoundInDb.showProfilPhoto, showSexOnProfil: userFoundInDb.showSexOnProfil, registerDate: userFoundInDb.registerDate, emergencyTime: userFoundInDb.emergencyTime, score: userFoundInDb.score})
+    }else{
+      res.json({result: false })
+    }
+  }
+
+  )
 });
 
 /* GET users listing. */
