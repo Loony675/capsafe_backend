@@ -19,7 +19,7 @@ router.get('/displayProfil', function(req, res) {
 });
 
 /* GET users listing. */
-router.post('/add', function(req, res) {
+router.post('/signUp', function(req, res) {
 
   User.findOne({email: req.body.email}).then(
     userFoundInDb => {
