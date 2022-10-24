@@ -36,7 +36,7 @@ router.post('/add', function(req, res) {
           // showSexOnProfil: req.body.,
         })
         newUser.save().then(newUser => {
-          res.json({result: true, User: newUser})})
+          res.json({result: true, token: newUser.token, userName: newUser.userName})})
       }
     })
   })
@@ -96,7 +96,7 @@ router.post('/add', function(req, res) {
                 res.json({ result: true});
             }
             else {  
-                res.json({ result: false, error: 'Trip cant be deleted' });
+                res.json({ result: false, error: 'User cant be deleted' });
               }}
               )}
             })
