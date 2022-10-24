@@ -2,6 +2,7 @@ var express = require('express');
 const User = require('../models/users');
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
+const { checkBody } = require('../modules/checkBody');
 
 var router = express.Router();
 
@@ -48,6 +49,21 @@ router.post('/signUp', function(req, res) {
       }
     })
   })
+
+  
+  router.get('/signIn', (req, res) => {
+    if (!checkBody(req.body, ['email', 'password'])) {
+      res.json({ result: false, error: 'Missing or empty fields' });
+      return;
+    }  
+    User.findOne({ email: req.body.email }).then(data => {
+      if (data && bcrypt.compareSync(req.body.password, data.password)) {
+        res.json({ result: true });
+      } else {
+        res.json({ result: false, error: 'User not found or wrong password' });
+      }
+    });
+  });
 
 
   router.post('/update', function(req, res){
