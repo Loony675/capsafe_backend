@@ -2,6 +2,7 @@ var express = require('express');
 const User = require('../models/users');
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
+const { checkBody } = require('../modules/checkBody');
 
 var router = express.Router();
 
@@ -33,7 +34,7 @@ router.post('/displayProfil', function(req, res) {
 });
 
 /* GET users listing. */
-router.post('/add', function(req, res) {
+router.post('/signUp', function(req, res) {
 
   User.findOne({email: req.body.email}).then(
     userFoundInDb => {
@@ -43,7 +44,7 @@ router.post('/add', function(req, res) {
         const newUser = new User({
           // firstName: req.body.firstName,
           // lastName: req.body.lastName,
-          userName: req.body.userName,
+          username: req.body.username,
           email:req.body.email,
           password: bcrypt.hashSync(req.body.password, 10),
           token:uid2(32),
@@ -62,6 +63,21 @@ router.post('/add', function(req, res) {
       }
     })
   })
+
+  
+  router.get('/signIn', (req, res) => {
+    if (!checkBody(req.body, ['email', 'password'])) {
+      res.json({ result: false, error: 'Missing or empty fields' });
+      return;
+    }  
+    User.findOne({ email: req.body.email }).then(data => {
+      if (data && bcrypt.compareSync(req.body.password, data.password)) {
+        res.json({ result: true });
+      } else {
+        res.json({ result: false, error: 'User not found or wrong password' });
+      }
+    });
+  });
 
 
   router.post('/update', function(req, res){
