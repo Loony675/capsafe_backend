@@ -11,7 +11,7 @@ const addressesSchema = mongoose.Schema({
 //Utilisation d'un sous document pour ajouter plusieurs numéros à une personne
  const phoneNumbersSchema = mongoose.Schema({
     phoneNumberName: String,
-    phoneNumber:String,
+    phoneNumber: String,
    });
 
    

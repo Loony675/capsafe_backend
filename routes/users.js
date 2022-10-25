@@ -5,17 +5,31 @@ const bcrypt = require('bcrypt');
 
 var router = express.Router();
 
+// allInfo: {
+//   userName: userFoundInDb.userName, 
+//   firstName: userFoundInDb.firstName, 
+//   sexe: userFoundInDb.sexe, 
+//   email: userFoundInDb.email, 
+//   phoneNumber: userFoundInDb.phoneNumber, 
+//   address: userFoundInDb.address, 
+//   favoriteTransportLine: userFoundInDb.favoriteTransportLine, 
+//   profilPhoto: userFoundInDb.profilPhoto,
+//   showProfilPhoto: userFoundInDb.showProfilPhoto, 
+//   showSexOnProfil: userFoundInDb.showSexOnProfil, 
+//   registerDate: userFoundInDb.registerDate, 
+//   emergencyTime: userFoundInDb.emergencyTime, 
+//   score: userFoundInDb.score }
+
 /* GET users listing. */
-router.get('/displayProfil', function(req, res) {
+router.post('/displayProfil', function(req, res) {
   User.findOne({ token: req.body.token }).then(userFoundInDb => {
     if(userFoundInDb){ //récupération des données utiles uniquement. Pas de mot de passe en front
-      res.json({result: true, userName: userFoundInDb.userName, firstName: userFoundInDb.firstName, sexe: userFoundInDb.sexe, email: userFoundInDb.email, phoneNumber: userFoundInDb.phoneNumber, address: userFoundInDb.address, favoriteTransportLine: userFoundInDb.favoriteTransportLine, profilPhoto: userFoundInDb.profilPhoto,showProfilPhoto: userFoundInDb.showProfilPhoto, showSexOnProfil: userFoundInDb.showSexOnProfil, registerDate: userFoundInDb.registerDate, emergencyTime: userFoundInDb.emergencyTime, score: userFoundInDb.score})
+
+      res.json({result: true, userInfo: userFoundInDb})
     }else{
       res.json({result: false })
     }
-  }
-
-  )
+  })
 });
 
 /* GET users listing. */
@@ -52,6 +66,7 @@ router.post('/add', function(req, res) {
 
   router.post('/update', function(req, res){
     User.findOne({token: req.body.token}).then(tokenFoundInDb => {
+      console.log(req.body);
       if(tokenFoundInDb){
           if(req.body.firstName){
             User.findOneAndUpdate({token: req.body.token},{firstName: req.body.firstName}).then()          
@@ -73,7 +88,6 @@ router.post('/add', function(req, res) {
           }
           if(req.body.sexe){
             User.findOneAndUpdate({token: req.body.token},{sexe: req.body.sexe}).then()
-            console.log(req.body.sexe);
           }
           if(req.body.favoriteTransportLine){
             User.findOneAndUpdate({token: req.body.token},{favoriteTransportLine: req.body.favoriteTransportLine}).then()
