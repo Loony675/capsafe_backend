@@ -16,23 +16,23 @@ const addressesSchema = mongoose.Schema({
 
    
  const usersSchema = mongoose.Schema({
-    firstName: String,
-    lastName: String,
-    username: String,
+    firstName: {type: String, default: null},
+    lastName:{type: String, default: null},
+    username: {type: String, default: null},
     email:String,
     password:String,
     token: String,
     phoneNumber:[phoneNumbersSchema],
-    birthdayDate:Date,
+    birthdayDate:{type: String, default: null},
     addresses: [addressesSchema],
     sexe: String,
     favoriteTransportLine: String,
-    profilPhoto:String,
+    profilPhoto: {type: String, default: null},
     travelingWithSameSex: {type: Boolean, default: false},
     showProfilPhoto: {type: Boolean, default: false},
     showSexOnProfil: {type: Boolean, default: false},
     registerDate: Date,
-    emergencyTime: Number,
+    emergencyTime: {type: Number, default: null},
     score: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
     });
 

@@ -82,46 +82,62 @@ router.post('/signUp', function(req, res) {
 
   router.post('/update', function(req, res){
     User.findOne({token: req.body.token}).then(tokenFoundInDb => {
-      console.log(req.body);
+      // console.log(req.body);
       if(tokenFoundInDb){
           if(req.body.firstName){
-            User.findOneAndUpdate({token: req.body.token},{firstName: req.body.firstName}).then()          
+            User.findOneAndUpdate({token: req.body.token},{firstName: req.body.firstName}).then()
+            res.json({result: true})          
           }
-          if(req.body.lastName){
+          else if(req.body.lastName){
             User.findOneAndUpdate({token: req.body.token},{lastName: req.body.lastName},{new : true}).then()
+            res.json({result: true})          
+
           }
-          if(req.body.userName){
+          else if(req.body.userName){
             User.findOneAndUpdate({token: req.body.token},{userName: req.body.userName}).then()
+            res.json({result: true})          
           }
-          if(req.body.email){
+          else if(req.body.email){
             User.updateOne({token: req.body.token},{$set: {email: req.body.email}}).then()
+            res.json({result: true})          
           }          
-          if(req.body.password){
+          else if(req.body.password){
             User.findOneAndUpdate({token: req.body.token},{password: bcrypt.hashSync(req.body.password, 10)}).then()
+            res.json({result: true})
           }
-          if(req.body.birthdayDate){
+          else if(req.body.birthdayDate){
             User.findOneAndUpdate({token: req.body.token},{birthdayDate: req.body.birthdayDate}).then()
+            res.json({result: true})
           }
-          if(req.body.sexe){
+          else if(req.body.sexe){
             User.findOneAndUpdate({token: req.body.token},{sexe: req.body.sexe}).then()
+            res.json({result: true})
           }
-          if(req.body.favoriteTransportLine){
+          else if(req.body.favoriteTransportLine){
             User.findOneAndUpdate({token: req.body.token},{favoriteTransportLine: req.body.favoriteTransportLine}).then()
+            res.json({result: true})
           }
-          if(req.body.travelingWithSameSex){
+          else if(req.body.travelingWithSameSex){
             User.findOneAndUpdate({token: req.body.token},{travelingWithSameSex: req.body.travelingWithSameSex}).then()
+            res.json({result: true})
           }
-          if(req.body.showProfilPhoto){
+          else if(req.body.showProfilPhoto){
             User.findOneAndUpdate({token: req.body.token},{showProfilPhoto: req.body.showProfilPhoto})
+            res.json({result: true})
           }
-          if(req.body.showSexOnProfil){
+          else if(req.body.showSexOnProfil){
             User.findOneAndUpdate({token: req.body.token},{showSexOnProfil: req.body.showSexOnProfil}).then()
+            res.json({result: true})
           }
+          else{
+            res.json({result: false})
+          }
+          // ok
           // phoneNumber:[phoneNumbersSchema],
           // addresses: [addressesSchema],
           // favoriteTransportLine: req.body.,
           // profilPhoto:req.body.,
-          res.json({result: true})
+          
         }
       })
     })
