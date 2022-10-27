@@ -37,14 +37,14 @@ router.get("/sync", (req, res) => {
   Message.find((err, data) => {
     if (err) {
       res.status(500).send(err);
-      log('sync', data)
+      log('sync============>', data)
     } else {
       res.status(200).send(data);
       console.log('sync', data)
     }
   });
 });
-
+//update
 router.post("/new", (req, res) => {
   const dbMessage = req.body;
 
