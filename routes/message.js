@@ -37,8 +37,10 @@ router.get("/sync", (req, res) => {
   Message.find((err, data) => {
     if (err) {
       res.status(500).send(err);
+      log('sync', data)
     } else {
       res.status(200).send(data);
+      console.log('sync', data)
     }
   });
 });
@@ -51,6 +53,8 @@ router.post("/new", (req, res) => {
       res.status(500).send(err);
     } else {
       res.status(201).send(data);
+      console.log('new',data)
+
     }
   });
 });
