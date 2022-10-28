@@ -3,6 +3,7 @@ var router = express.Router();
 const Message = require("../models/message");
 const Pusher = require("pusher");
 const mongoose = require("mongoose");
+const { token } = require("morgan");
 const db = mongoose.connection;
 
 db.once("open", () => {
@@ -12,12 +13,14 @@ db.once("open", () => {
 
     if (change.operationType === "insert") {
       const messageDetails = change.fullDocument;
-      console.log('console log',messageDetails)
+      // console.log('console log',messageDetails)
       pusher.trigger("messagechannel", "inserted", {
-        name: messageDetails.name,
+        name: messageDetails.name, //Ali envoi un message
         message: messageDetails.message,
         timestamp: messageDetails.timestamp,
         id: messageDetails.id,
+        token: token,
+        //benoit est destinataire du message
       });
     } else {
         console.log('error triggering pusher')
@@ -37,10 +40,9 @@ router.get("/sync", (req, res) => {
   Message.find((err, data) => {
     if (err) {
       res.status(500).send(err);
-      log('sync============>', data)
+      // log('sync============>', data)
     } else {
       res.status(200).send(data);
-      console.log('sync', data)
     }
   });
 });
@@ -53,7 +55,7 @@ router.post("/new", (req, res) => {
       res.status(500).send(err);
     } else {
       res.status(201).send(data);
-      console.log('new',data)
+      // console.log('new ===============>',data)
 
     }
   });

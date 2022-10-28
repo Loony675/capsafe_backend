@@ -22,6 +22,17 @@ var router = express.Router();
 //   score: userFoundInDb.score }
 
 /* GET users listing. */
+router.post("/displayOneUser", function (req, res) {
+  User.findOne({ token: req.body.token }).then((userFoundInDb) => {
+    if (userFoundInDb) {
+      //récupération des données utiles uniquement. Pas de mot de passe en front
+
+      res.json({ result: true, userInfo: userFoundInDb });
+    } else {
+      res.json({ result: false });
+    }
+  });
+});
 router.post("/displayProfil", function (req, res) {
   User.findOne({ token: req.body.token }).then((userFoundInDb) => {
     if (userFoundInDb) {
