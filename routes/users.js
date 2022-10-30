@@ -51,7 +51,7 @@ router.post('/signUp', function(req, res) {
           // phoneNumber:[phoneNumbersSchema],
           // birthdayDate:req.body.,
           // addresses: [addressesSchema],
-          sexe: req.body.sexe,
+          // sexe: req.body.sexe,
           // favoriteTransportLine: req.body.,
           // profilPhoto:req.body.,
           // travelingWithSameSex: req.body.,
@@ -65,7 +65,7 @@ router.post('/signUp', function(req, res) {
   })
 
   
-  router.get('/signIn', (req, res) => {
+  router.post('/signIn', (req, res) => {
     if (!checkBody(req.body, ['email', 'password'])) {
       res.json({ result: false, error: 'Missing or empty fields' });
       return;
