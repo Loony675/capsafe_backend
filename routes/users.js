@@ -50,7 +50,7 @@ router.post("/signUp", function (req, res) {
         // phoneNumber:[phoneNumbersSchema],
         // birthdayDate:req.body.,
         // addresses: [addressesSchema],
-        sexe: req.body.sexe,
+        // sexe: req.body.sexe,
         // favoriteTransportLine: req.body.,
         // profilPhoto:req.body.,
         // travelingWithSameSex: req.body.,
