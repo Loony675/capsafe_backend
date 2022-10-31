@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const { checkBody } = require("../modules/checkBody");
 
 var router = express.Router();
-
+//Pour Theo
 // allInfo: {
 //   userName: userFoundInDb.userName,
 //   firstName: userFoundInDb.firstName,
