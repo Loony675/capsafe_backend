@@ -97,23 +97,23 @@ router.post("/update", function (req, res) {
   User.findOne({ token: req.body.token }).then((tokenFoundInDb) => {
     // console.log(req.body);
     if (tokenFoundInDb) {
-      if (req.body.firstName) {
+      if (req.body.firstname) {
         User.findOneAndUpdate(
           { token: req.body.token },
-          { firstName: req.body.firstName }
+          { firstname: req.body.firstname }
         ).then();
         res.json({ result: true });
-      } else if (req.body.lastName) {
+      } else if (req.body.lastname) {
         User.findOneAndUpdate(
           { token: req.body.token },
-          { lastName: req.body.lastName },
+          { lastname: req.body.lastname },
           { new: true }
         ).then();
         res.json({ result: true });
-      } else if (req.body.userName) {
+      } else if (req.body.username) {
         User.findOneAndUpdate(
           { token: req.body.token },
-          { userName: req.body.userName }
+          { username: req.body.username }
         ).then();
         res.json({ result: true });
       } else if (req.body.email) {
