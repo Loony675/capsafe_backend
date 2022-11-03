@@ -10,6 +10,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var messageRouter = require('./routes/message')
+var messages1Router = require('./routes/messages1')
 
 var app = express();
 const cors = require('cors');
@@ -24,5 +25,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/message', messageRouter);
+app.use('/messages1', messages1Router);
 
 module.exports = app;
