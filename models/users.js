@@ -16,8 +16,8 @@ const addressesSchema = mongoose.Schema({
 
    
  const usersSchema = mongoose.Schema({
-    firstName: {type: String, default: null},
-    lastName:{type: String, default: null},
+    firstname: {type: String, default: null},
+    lastname:{type: String, default: null},
     username: {type: String, default: null},
     email:String,
     password:String,
