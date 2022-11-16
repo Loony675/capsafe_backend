@@ -52,21 +52,10 @@ router.post("/signUp", function (req, res) {
       res.json({ result: false, error: "user already exists" });
     } else {
       const newUser = new User({
-        // firstName: req.body.firstName,
-        // lastName: req.body.lastName,
         username: req.body.username,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 10),
         token: uid2(32),
-        // phoneNumber:[phoneNumbersSchema],
-        // birthdayDate:req.body.,
-        // addresses: [addressesSchema],
-        // sexe: req.body.sexe,
-        // favoriteTransportLine: req.body.,
-        // profilPhoto:req.body.,
-        // travelingWithSameSex: req.body.,
-        // showProfilPhoto: req.body.,
-        // showSexOnProfil: req.body.,
       });
       newUser.save().then((newUser) => {
         res.json({
