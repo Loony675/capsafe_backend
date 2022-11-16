@@ -1,9 +1,10 @@
 var express = require("express");
 var router = express.Router();
 const Message = require("../models/message");
-
+const User = require("../models/users");
 const Pusher = require("pusher");
-const pusher = new Pusher({
+
+const pusher = new Pusher({ // Création du serveur Pusher avec nos identifiants
   appId: process.env.PUSHER_APPID,
   key: process.env.PUSHER_KEY,
   secret: process.env.PUSHER_SECRET,
@@ -11,26 +12,20 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-const cloudinary = require("cloudinary").v2;
-const uniqid = require("uniqid");
-const fs = require("fs");
-const User = require("../models/users");
-
-
-
 
 router.post("/displayMessages", (req, res) => {
-  User.findOne({token: req.body.token}).then(userInDb => {
+  User.findOne({token: req.body.token}).then(userInDb => { //On vérifie que le token est bien enregistré en bdd
     if (userInDb){
-      let possibleChannel1= req.body.token +req.body.token2;
-      let possibleChannel2 = req.body.token2 +req.body.token;
-      Message.find({$or: [{chanel: possibleChannel1}, {chanel: possibleChannel2}]})
+      let possibleChannel1= req.body.token +req.body.token2; // les channels possibles sont la concaténation du token des 2 utilisateurs concernés
+      let possibleChannel2 = req.body.token2 +req.body.token; // ex: channel = token1+token2 ou token2+token1
+      Message.find({ // On va récupérer l'ensemble des messages du chanel possible 1 ou 2
+        $or: [{chanel: possibleChannel1}, {chanel: possibleChannel2}]})
       .then(messageFoundInDb => {
         // console.log(messageFoundInDb);
-        if(messageFoundInDb){
-          let retourBack = []
+        if(messageFoundInDb){ // Si des messages on été retrouvé alors...
+          let retourBack = [] // On déclare un tableau vide qui va contenir les messages trouvés en bdd
           messageFoundInDb.map((data, i) =>{console.log(data.chanel)
-          retourBack.push({message: data.messageContent, channel : data.chanel})
+          retourBack.push({message: data.messageContent, channel : data.chanel}) 
           })
           res.json({result: true, channel: messageFoundInDb.chanel, message: retourBack });
 
@@ -43,19 +38,19 @@ router.post("/displayMessages", (req, res) => {
 
     }
   })})
-// Pusher permet de mettre en relation 2 utilisateurs via un tunnel(chanel) qui leur permet d'échanger en instantanné tant que ceux ci ne quitte pas le tunnel(channel)
-// Si l'un des utilisateur quitte le channel puis revient dessus les messages auront disparu appart si ceux ci ne sont sauvgardé en bdd. Pusher ne conserve pas les messages comme une bdd.
-// On peux envoyer toute les informations que l'on souhaite en Params à Pusher afin de les réupérer ds la console Pusher.
+// Pusher permet de mettre en relation 2 utilisateurs via un tunnel(chanel) qui leur permet d'échanger en instantanné tant que ceux ci ne quittent pas le tunnel(channel)
+// Si l'un des utilisateurs quitte le channel puis revient dessus les messages auront disparu mise à part si ceux ci sont sauvgardés en bdd. Pusher ne conserve pas les messages comme une bdd.
+// On peut envoyer toute les informations que l'on souhaite en Params à Pusher afin de les récupérer dans la console Pusher.
 // Mise à jour (route PUT) du channel (chat) existant en ajoutant (join) un utilisateur (: username)
 
 router.put("/users", (req, res) => {
-  // connection au channel via le params token demandé pair Pusher
+  // connection au channel via le params token demandé par Pusher
   // console.log(req.body);
   pusher.trigger(req.body.chanel, "join", { token: req.body.token }); //'chat' Nom du chanel, 'join' Evenement, 'username' condition demandé par Pusher
   res.json({ result: true });
 });
 
-// Suppression (route DELETE) de l'utilisateur (: username) du channel (chat) l'orsqu'il le quitte (leave)
+// Suppression (route DELETE) de l'utilisateur (: username) du channel (chat) lorsqu'il le quitte (leave)
 router.delete("/users", (req, res) => {  //Déconnection du channel via le params token
   pusher.trigger(req.body.chanel, "leave", { token: req.body.token }); //'chat' Nom du chanel, 'leave' Evenement, 'token' / ceux sont des paramètres
   res.json({ result: true });

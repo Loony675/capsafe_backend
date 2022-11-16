@@ -108,7 +108,7 @@ router.post("/update", function (req, res) {
       } else if (req.body.email) {
         User.updateOne(
           { token: req.body.token },
-          { $set: { email: req.body.email } }
+          { email: req.body.email } 
         ).then();
         res.json({ result: true });
       } else if (req.body.password) {
