@@ -6,7 +6,7 @@ router.get("/displayJourney", function (req, res) {
 
   const options = {
     headers: {
-      Authorization: "a3241d36-8169-4f8b-840c-214b769f3771"
+      Authorization: "a3241d36-8169-4f8b-840c-214b769f3771" // clef API
     }
   };
  fetch(`https://api.navitia.io/v1/journeys?from=2.3036095;48.8877713&to=2.655400;48.542107`, options).then(
